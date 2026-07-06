@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "Dynamic Pricing Engine",
+    "description": "Collection for Product CRUD, Admin Pricing Rule CRUD, and Price lookup endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "productId", "value": "1" },
+    { "key": "ruleId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Wireless Headphones\",\n  \"basePrice\": 99.99,\n  \"inventoryCount\": 150\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Product By Id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "{{productId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Wireless Headphones Pro\",\n  \"basePrice\": 109.99,\n  \"inventoryCount\": 80\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/api/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "{{productId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Pricing Rules",
+      "item": [
+        {
+          "name": "Create Surge Rule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/rules", "host": ["{{baseUrl}}"], "path": ["api", "admin", "rules"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": {{productId}},\n  \"type\": \"SURGE\",\n  \"value\": 1.25,\n  \"condition\": \"demand>80\",\n  \"priority\": 1,\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Time-Based Rule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/rules", "host": ["{{baseUrl}}"], "path": ["api", "admin", "rules"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": {{productId}},\n  \"type\": \"TIME_BASED\",\n  \"value\": 1.10,\n  \"condition\": \"22:00-06:00\",\n  \"priority\": 2,\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Inventory Rule",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/rules", "host": ["{{baseUrl}}"], "path": ["api", "admin", "rules"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": {{productId}},\n  \"type\": \"INVENTORY\",\n  \"value\": 1.15,\n  \"condition\": \"<10\",\n  \"priority\": 3,\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Rules For Product",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/admin/rules/product/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "admin", "rules", "product", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Update Rule",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/rules/{{ruleId}}", "host": ["{{baseUrl}}"], "path": ["api", "admin", "rules", "{{ruleId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": {{productId}},\n  \"type\": \"SURGE\",\n  \"value\": 1.30,\n  \"condition\": \"demand>90\",\n  \"priority\": 1,\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Rule",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/api/admin/rules/{{ruleId}}", "host": ["{{baseUrl}}"], "path": ["api", "admin", "rules", "{{ruleId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Price",
+      "item": [
+        {
+          "name": "Get Current Price",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/price/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "price", "{{productId}}"] }
+          }
+        }
+      ]
+    }
+  ]
+}
