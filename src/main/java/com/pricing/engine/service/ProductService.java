@@ -50,7 +50,7 @@ public class ProductService {
         return productRepository.findAll().stream().map(this::toResponse).toList();
     }
 
-    // Updating a product (e.g. inventory count) can change the outcome of an
+    // Updating a product (everything while update) (e.g. inventory count) can change the outcome of an
     // inventory-based rule, so the cached price must be evicted.
     @Transactional
     @CacheEvict(value = "priceCache", key = "#id")
